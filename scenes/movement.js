@@ -4,6 +4,7 @@ class Movement extends Phaser.Scene {
     }
 
     init(){
+
     }
 
     preload() {
@@ -18,3 +19,4 @@ class Movement extends Phaser.Scene {
     }
 
 }
+//may be removed
