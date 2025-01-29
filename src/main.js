@@ -5,6 +5,7 @@
 //There is nothing visually interesting... yet
 
 // main game object for Phaser
+
 let config = {
     type: Phaser.AUTO,
     width: 1500,
@@ -18,7 +19,7 @@ let config = {
             debug: true             
         },
     },
-    scene: [Menu, Play]
+    scene: [Menu, Play, Tutorial]
 };
 
 //set up the game
@@ -27,3 +28,5 @@ let game = new Phaser.Game(config);
 //placeholder if needed
 let cursors
 let { height, width } = game.config;
+
+

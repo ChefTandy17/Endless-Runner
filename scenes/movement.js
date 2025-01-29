@@ -9,6 +9,7 @@ class Movement extends Phaser.Scene {
 
     preload() {
         this.load.image('driver', 'assets/sprites/driver.png') // Load driver sprite
+        this.player.body.setCollideWorldBounds(true)    //to set collides
     }
 
     create() {
@@ -17,25 +18,34 @@ class Movement extends Phaser.Scene {
     }
 
     update() {
-        // Handle user input for movement
-        if (this.cursors.left.isDown) {
-            this.driver.setVelocityX(-this.speed)
-        } 
-        else if (this.cursors.right.isDown) {
-            this.driver.setVelocityX(this.speed)
-        } 
-        else {
-            this.driver.setVelocityX(0)
+        //this.player.play('walk-down', true)    //use it for testing sprites
+
+        let playerVector = new Phaser.Math.Vector2(0, 0) //creating a new vector with x and y coordinates from Phaser 
+        let playerDirection = 'down'
+
+        //if player holds left, the x,y coord is -1,0
+        if (cursors.left.isDown) {
+            playerVector.x -= 1
+            playerDirection = 'left'
+        }
+        //if player holds right, the x,y coord is 1,0
+        else if (cursors.right.isDown) {
+            playerVector.x += 1
+            playerDirection = 'right'
         }
 
-        if (this.cursors.up.isDown) {
-            this.driver.setVelocityY(-this.speed)
-        } 
-        else if (this.cursors.down.isDown) {
-            this.driver.setVelocityY(this.speed)
-        } 
-        else {
-            this.driver.setVelocityY(0)
+        //if player holds up, the x,y coord is 0,-1
+        if (cursors.up.isDown) {
+            playerVector.y -= 1
+            playerDirection = 'up'
         }
+        //if player holds down, the x,y coord is 0,1
+        else if (cursors.down.isDown) {
+            playerVector.y += 1
+            playerDirection = 'down'
+        }
+
+        //the key to make it work. Normalize the vector  
+        playerVector.normalize();
     }
 }

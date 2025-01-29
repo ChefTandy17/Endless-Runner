@@ -41,7 +41,7 @@ class Menu extends Phaser.Scene {
         this.racetrack = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'racetrack').setOrigin(0);
 
         //placeholder of the title
-        this.add.text(game.config.width / 2, (game.config.height / 2) - 80, 'Cool Title Screen', titleConfig).setOrigin(0.5)
+        this.add.text(game.config.width / 2, (game.config.height / 2) - 80, 'Streamer Driver', titleConfig).setOrigin(0.5)
 
         //placeholder of tutorial
         this.add.text(game.config.width / 2, game.config.height / 2, '<- for tutorial. -> for credits', tutorialConfig).setOrigin(0.5)
@@ -49,6 +49,9 @@ class Menu extends Phaser.Scene {
 
         //spacebar input when player wants to play the game
         this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        this.leftkey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
+        this.rightkey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
+
     }
 
     update() {
@@ -59,6 +62,9 @@ class Menu extends Phaser.Scene {
         //if the user press spacebar, go to the play scene
         if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
             this.scene.start('playScene')
+        }
+        if (Phaser.Input.Keyboard.JustDown(this.leftkey)) {
+            this.scene.start('tutorialScene')
         }
     }
 }
