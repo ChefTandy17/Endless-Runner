@@ -9,21 +9,21 @@ let config = {
     type: Phaser.AUTO,
     width: 1500,
     height: 500,
-    render: {               // This is for pixel art to make it crispy clean
+    render: {
         pixelArt: true 
     },
     physics: {
-        default: 'endless-runner',
+        default: 'arcade',
         arcade: {                  
             debug: true             
         },
     },
-    scene: [Movement, Play, Menu]
-}
+    scene: [Menu, Play]
+};
 
-let game = new Phaser.Game(config)
+//set up the game
+let game = new Phaser.Game(config);
 
+//placeholder if needed
 let cursors
-let { height, width } = game.config
-
-let keyLeft, keyRight, keyW, keyS, keyR, keySpace
+let { height, width } = game.config;
