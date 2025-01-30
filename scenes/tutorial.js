@@ -29,15 +29,11 @@ class Tutorial extends Phaser.Scene {
     this.add.text(game.config.width / 2, game.config.height / 2 + 45, 'The game ends when you collide with a hazard', tutorialConfig).setOrigin(0.5)
     this.add.text(game.config.width / 2, game.config.height / 2 + 100, 'Press Spacebar to Menu ', tutorialConfig).setOrigin(0.5)
 
-    this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-    this.leftkey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
-    this.rightkey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
     }
 
     update() {
         //endless scrolling sprite
         this.racetrack.tilePositionX += 2
-
 
         //if the user press spacebar, go to the play scene
         if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {

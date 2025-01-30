@@ -47,11 +47,13 @@ class Menu extends Phaser.Scene {
         this.add.text(game.config.width / 2, game.config.height / 2, '<- for tutorial. -> for credits', tutorialConfig).setOrigin(0.5)
         this.add.text(game.config.width / 2, game.config.height / 2 + 55, 'Spacebar to PLAY!!!', tutorialConfig).setOrigin(0.5)
 
-        //spacebar input when player wants to play the game
-        this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+        //player inputs
+        this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
         this.leftkey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
         this.rightkey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
-
+        this.upkey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP)
+        this.downkey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN)
     }
 
     update() {

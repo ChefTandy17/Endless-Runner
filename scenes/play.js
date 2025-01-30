@@ -16,23 +16,30 @@ class Play extends Phaser.Scene {
         
         // Set up keyboard input
         this.cursors = this.input.keyboard.createCursorKeys()
+
+        // To avoid moving out of border
+        this.driver.body.setCollideWorldBounds(true)
     }
 
     update() {
         //creating user movement
         if (this.cursors.left.isDown) {
             this.driver.setVelocityX(-this.userSpeed)
-        } else if (this.cursors.right.isDown) {
+        } 
+        else if (this.cursors.right.isDown) {
             this.driver.setVelocityX(this.userSpeed)
-        } else {
+        } 
+        else {
             this.driver.setVelocityX(0);
         }
 
         if (this.cursors.up.isDown) {
             this.driver.setVelocityY(-this.userSpeed)
-        } else if (this.cursors.down.isDown) {
+        } 
+        else if (this.cursors.down.isDown) {
             this.driver.setVelocityY(this.userSpeed)
-        } else {
+        } 
+        else {
             this.driver.setVelocityY(0)
         }
 
