@@ -1,49 +1,111 @@
 class Play extends Phaser.Scene {
     constructor() {
-        super('playScene')
+        super('playScene');
     }
 
     init() {
-        this.userSpeed = 200 // Set user movement speed
+        //variable to store 200 in the userSpeed
+        this.userSpeed = 200;
     }
 
     create() {
-        // Create the racetrack tile sprite
+        //may not be needed, just for safety
         this.racetrack = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'racetrack').setOrigin(0)
-        
-        // Create the driver sprite
         this.driver = this.physics.add.sprite(game.config.width / 2, game.config.height / 2, 'driver')
-        
-        // Set up keyboard input
-        this.cursors = this.input.keyboard.createCursorKeys()
 
-        // To avoid moving out of border
+        //from lecture
+        this.cursors = this.input.keyboard.createCursorKeys()
         this.driver.body.setCollideWorldBounds(true)
     }
 
     update() {
-        //creating user movement
+        //create a series of animations. keys is the name, frames for animation from start to end, frame rate, and repeat.
+        this.anims.create({
+            key: 'idle',
+            frames: this.anims.generateFrameNumbers('driver', { 
+                start: 8, 
+                end: 11 
+            }),
+            frameRate: 10,
+            repeat: -1
+        })
+
+        this.anims.create({
+            key: 'driving-down-or-right',
+            frames: this.anims.generateFrameNumbers('driver', { 
+                start: 4, 
+                end: 7 
+            }),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'driving-up-or-left',
+            frames: this.anims.generateFrameNumbers('driver', { 
+                start: 0, 
+                end: 3 
+            }),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        //from lecture
+        let playerVector = new Phaser.Math.Vector2(0, 0)
+        let animationKey = 'idle'       //from lecture its playeDirection. animationKey makes sense for me
+    
+        //when the user presses an input, play an animation and change its vector
         if (this.cursors.left.isDown) {
-            this.driver.setVelocityX(-this.userSpeed)
+            playerVector.x -= 1;
+            animationKey = 'driving-up-or-left';
         } 
-        else if (this.cursors.right.isDown) {
-            this.driver.setVelocityX(this.userSpeed)
-        } 
-        else {
-            this.driver.setVelocityX(0);
-        }
 
+        if (this.cursors.right.isDown) {
+            playerVector.x += 1;
+            animationKey = 'driving-down-or-right';
+        }
+    
+        //when players press multiple input keys (maybe these need better names for animation keys)
         if (this.cursors.up.isDown) {
-            this.driver.setVelocityY(-this.userSpeed)
+            playerVector.y -= 1;
+            if (this.cursors.left.isDown) {
+                animationKey = 'driving-up-or-left';
+            } 
+            else if (this.cursors.right.isDown) {
+                animationKey = 'driving-down-or-right';
+            } 
+            else {
+                animationKey = 'driving-up-or-left';
+            }
         } 
-        else if (this.cursors.down.isDown) {
-            this.driver.setVelocityY(this.userSpeed)
+
+        if (this.cursors.down.isDown) {
+            playerVector.y += 1;
+            if (this.cursors.left.isDown) {
+                animationKey = 'driving-up-or-left';
+            } 
+            else if (this.cursors.right.isDown) {
+                animationKey = 'driving-down-or-right';
+            } 
+            else {
+                animationKey = 'driving-down-or-right';
+            }
+        }
+    
+        //from lecture
+        if (playerVector.length() > 0) {
+            playerVector.normalize()                        //to normalize the vector when moving diagonal
+            playerVector.scale(this.userSpeed)              
+            this.driver.anims.play(animationKey, true)      
         } 
         else {
-            this.driver.setVelocityY(0)
+            this.driver.anims.play('idle', true)
         }
-
-        // Endless scrolling of the racetrack
-        this.racetrack.tilePositionX += 15 // Adjust speed as necessary
+    
+        //to move the driver
+        this.driver.setVelocity(playerVector.x, playerVector.y)
+        
+        //to move the racetrack, this time much faster
+        this.racetrack.tilePositionX += 15
     }
 }

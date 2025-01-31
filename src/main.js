@@ -25,8 +25,5 @@ let config = {
 //set up the game
 let game = new Phaser.Game(config);
 
-//placeholder if needed
-let cursors
-let { height, width } = game.config;
 
 
