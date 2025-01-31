@@ -94,7 +94,7 @@ class Play extends Phaser.Scene {
         }
 
         //if the player wants to restart, they can press R
-        if (this.cursors.dow)
+        //if (this.cursors.down)
     
         //from lecture
         if (playerVector.length() > 0) {
