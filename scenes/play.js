@@ -12,10 +12,16 @@ class Play extends Phaser.Scene {
         //may not be needed, just for safety
         this.racetrack = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'racetrack').setOrigin(0)
         this.driver = this.physics.add.sprite(game.config.width / 6, game.config.height / 2, 'driver')
+        this.hazard = this.load.image('hazard','assets/hazard.png')
 
         //from lecture
         this.cursors = this.input.keyboard.createCursorKeys()
+
+        //to adjust the hitbox
         this.driver.body.setCollideWorldBounds(true)
+        this.driver.body.setSize(200, 64); // Set the size of the hitbox (width, height)
+        this.driver.body.setOffset(40 , 64); // Set the offset of the hitbox (x, y)
+
     }
 
     update() {
