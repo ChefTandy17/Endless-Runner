@@ -10,6 +10,7 @@ class Menu extends Phaser.Scene {
             frameWidth: 256,    //1024 / 3
             frameHeight: 128    //384 / 4
         })
+        this.load.image('hazard')
     }
 
     create() {

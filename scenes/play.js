@@ -92,6 +92,9 @@ class Play extends Phaser.Scene {
                 animationKey = 'driving-down-or-right';
             }
         }
+
+        //if the player wants to restart, they can press R
+        if (this.cursors.dow)
     
         //from lecture
         if (playerVector.length() > 0) {
