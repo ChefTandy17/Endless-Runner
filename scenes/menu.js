@@ -66,8 +66,10 @@ class Menu extends Phaser.Scene {
             this.scene.start('tutorialScene');
         }
         //doesn't exist just yet
+        /*
         if (Phaser.Input.Keyboard.JustDown(this.rightKey)) {
             this.scene.start('creditsScene')
         }
+        */
     }
 }

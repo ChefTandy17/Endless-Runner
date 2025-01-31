@@ -11,7 +11,7 @@ class Play extends Phaser.Scene {
     create() {
         //may not be needed, just for safety
         this.racetrack = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'racetrack').setOrigin(0)
-        this.driver = this.physics.add.sprite(game.config.width / 2, game.config.height / 2, 'driver')
+        this.driver = this.physics.add.sprite(game.config.width / 6, game.config.height / 2, 'driver')
 
         //from lecture
         this.cursors = this.input.keyboard.createCursorKeys()
@@ -26,7 +26,7 @@ class Play extends Phaser.Scene {
                 start: 8, 
                 end: 11 
             }),
-            frameRate: 10,
+            frameRate: 15,
             repeat: -1
         })
 
@@ -36,7 +36,7 @@ class Play extends Phaser.Scene {
                 start: 4, 
                 end: 7 
             }),
-            frameRate: 10,
+            frameRate: 15,
             repeat: -1
         });
 
@@ -46,12 +46,13 @@ class Play extends Phaser.Scene {
                 start: 0, 
                 end: 3 
             }),
-            frameRate: 10,
+            frameRate: 15,
             repeat: -1
         });
 
         //from lecture
         let playerVector = new Phaser.Math.Vector2(0, 0)
+        playerVector.x -= 0.3
         let animationKey = 'idle'       //from lecture its playeDirection. animationKey makes sense for me
     
         //when the user presses an input, play an animation and change its vector
@@ -72,7 +73,7 @@ class Play extends Phaser.Scene {
                 animationKey = 'driving-up-or-left';
             } 
             else if (this.cursors.right.isDown) {
-                animationKey = 'driving-down-or-right';
+                animationKey = 'driving-up-or-left' 
             } 
             else {
                 animationKey = 'driving-up-or-left';
@@ -82,7 +83,7 @@ class Play extends Phaser.Scene {
         if (this.cursors.down.isDown) {
             playerVector.y += 1;
             if (this.cursors.left.isDown) {
-                animationKey = 'driving-up-or-left';
+                animationKey = 'driving-down-or-right' 
             } 
             else if (this.cursors.right.isDown) {
                 animationKey = 'driving-down-or-right';
