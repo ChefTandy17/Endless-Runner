@@ -17,10 +17,37 @@ class Play extends Phaser.Scene {
         //from lecture
         this.cursors = this.input.keyboard.createCursorKeys()
 
-        //to adjust the hitbox
+        //to adjust the hitbox of the driver
         this.driver.body.setCollideWorldBounds(true)
         this.driver.body.setSize(200, 64); // Set the size of the hitbox (width, height)
         this.driver.body.setOffset(40 , 64); // Set the offset of the hitbox (x, y)
+        this.driver.body.setCollideWorldBounds(true) //to avoid out of bounds play
+
+
+        //invisible barriers to create realism of hitting the side of the railings
+        let invisibleBarrierTop = this.physics.add.sprite(0, 50).setOrigin(0).setSize(3000, 20).setVisible(false)
+        let invisibleBarrierBottom = this.physics.add.sprite(0, 435).setOrigin(0).setSize(3000, 20).setVisible(false)     
+
+        // Add collision detection between driver and invisible barriers
+        this.physics.add.collider(this.driver, invisibleBarrierTop)
+        this.physics.add.collider(this.driver, invisibleBarrierBottom)
+
+        invisibleBarrierTop.body.setImmovable(true)      
+        invisibleBarrierBottom.body.setImmovable(true) 
+
+        //to adjust the hitbox of the hazard
+
+
+
+
+        this.physics.add.collider(this.driver, this.hazard, this.handleCollision, null, this)
+
+        //background music
+        this.backgroundMusic = this.sound.add('backgroundMusic', {
+            volume: 0.1,
+            loop: true,
+        })
+        this.backgroundMusic.play()
 
     }
 
@@ -58,7 +85,7 @@ class Play extends Phaser.Scene {
 
         //from lecture
         let playerVector = new Phaser.Math.Vector2(0, 0)
-        playerVector.x -= 0.3
+        playerVector.x -= 0.3           //when no buttons pressed, go back slightly
         let animationKey = 'idle'       //from lecture its playeDirection. animationKey makes sense for me
     
         //when the user presses an input, play an animation and change its vector

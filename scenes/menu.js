@@ -11,6 +11,9 @@ class Menu extends Phaser.Scene {
             frameHeight: 128    //384 / 4
         })
         this.load.image('hazard','assets/hazard.png')
+
+        //add music and sound effects
+        this.load.audio('backgroundMusic','assets/background.mp3')  
     }
 
     create() {
@@ -43,6 +46,7 @@ class Menu extends Phaser.Scene {
 
         //variable to store the sprite racetrack
         this.racetrack = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'racetrack').setOrigin(0)
+
 
         //to display text that will be added in the screen immedietly 
         this.add.text(game.config.width / 2, (game.config.height / 2) - 80, 'Streamer Driver', titleConfig).setOrigin(0.5)
