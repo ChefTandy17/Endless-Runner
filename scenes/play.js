@@ -1,6 +1,12 @@
 class Play extends Phaser.Scene {
     constructor() {
-        super('playScene');
+        super('playScene')
+        //behaviors of the hazards
+        this.hazards = []
+        this.hazardCount = 1 
+        this.maxHazards = 5         
+        this.hazardSpawnDelay = 5000 
+        this.hazardSpeed = 1000
     }
 
     init() {
@@ -35,11 +41,6 @@ class Play extends Phaser.Scene {
         invisibleBarrierTop.body.setImmovable(true)      
         invisibleBarrierBottom.body.setImmovable(true) 
 
-        //to adjust the hitbox of the hazard
-
-
-
-
         this.physics.add.collider(this.driver, this.hazard, this.handleCollision, null, this)
 
         //background music
@@ -48,6 +49,38 @@ class Play extends Phaser.Scene {
             loop: true,
         })
         this.backgroundMusic.play()
+
+    /*
+        this.time.delayedCall(2500, () => { 
+            this.spawnHazard(); 
+        });
+    */
+
+    //delay timer
+    this.time.delayedCall(5000, () => {
+        //after that, spawn hazards
+        this.time.addEvent({
+            delay: this.hazardSpawnDelay,
+            callback: this.spawnHazard,
+            callbackScope: this,
+            loop: true
+        })
+    }, [], this)
+}
+
+    //to spawn hazards around the map
+    spawnHazard() {
+        //random y positiion from Phaser
+        let y = Phaser.Math.Between(60, game.config.height - 100)   //to prevent hazards to spawn somewhere else
+        let hazard = this.physics.add.sprite(game.config.width, y, 'hazard')
+        hazard.setVelocityX(-this.hazardSpeed)                      //moving from the left
+        
+        hazard.body.setSize(64, 32)                                 //size of the hitbox
+        hazard.body.setOffset(0, 32)                                //offset
+
+        hazard.body.setImmovable(true);
+
+        this.physics.add.collider(this.driver, hazard, this.handleCollision);       //collision detection
 
     }
 
@@ -144,5 +177,22 @@ class Play extends Phaser.Scene {
         
         //to move the racetrack, this time much faster
         this.racetrack.tilePositionX += 15
+
+        // Update hazards
+        // used Altice example to figure out how to destroy objects
+        this.hazards.forEach(hazard => {
+            if (hazard.x < -hazard.width) {
+                hazard.destroy()
+            }
+            //if(//user score is some value){
+            // }
+        })
+/*
+        //from golf ball collison detection lecture with modifications
+        this.physics.add.collider(this.hazards, this.driver, (hazards, driver) => {                         
+            driver.setVelocity(0,0)
+            //game over text
+        })
+*/
     }
 }
