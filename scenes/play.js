@@ -53,7 +53,6 @@ class Play extends Phaser.Scene {
         //to set up a timer system
         this.p1Timer = 0    
 
-
         //scoring system text
         this.increaseTime = 0
         this.timerText = this.add.text(10, 10, 'Time: 0', { 
@@ -110,18 +109,20 @@ class Play extends Phaser.Scene {
 
     }
 
-    //using AABB (Axis-Aligned Bounding Boxes) collision detection from lecture
-    crashDetection(){
-        if(this.driver.x < this.hazard.x + this.hazard.width &&
-            this.driver.x + this.driver.width > this.hazard.x &&
-            this.driver.y < this.hazard.y + this.hazard.height &&
-            this.driver.height + this.driver.y > this.hazard.y){
-            return true;
-            }    
+    //using AABB (Axis-Aligned Bounding Boxes) collision detection from lecture with modifications
+    crashDetection(driver, hazard) {
+        if(driver.x < hazard.x + hazard.width &&
+               driver.x + driver.width > hazard.x &&
+               driver.y < hazard.y + hazard.height &&
+               driver.height + driver.y > hazard.y){
+                return true
+               }
         else{
             return false
         }
     }
+
+
 
     update() {
         //create a series of animations. keys is the name, frames for animation from start to end, frame rate, and repeat.
@@ -218,15 +219,27 @@ class Play extends Phaser.Scene {
         this.racetrack.tilePositionX += 15
 
         // Update hazards
-        // used Altice example to figure out how to destroy objects
+        // used lecture example to figure out how to destroy objects
         this.hazards.forEach(hazard => {
             if (hazard.x < -hazard.width) {
                 hazard.destroy()
             }
-            //if(//user score is some value){
-            // }
         })
 
+/*
+
+        this.hazards.forEach(hazard => {
+            if (this.crashDetection(driver, hazard) == true) {
+                hazard.setVelocityX(0)
+                driver.setVelocityX(0)
+                this.hazardSpeed = 0
+                this.userSpeed = 0
+            }
+        })
+*/
+
+
+/*
         //to game over screen if there is collision detection
         if(this.crashDetection(this.driver, this.hazard)){
             hazard.setVelocityX(0)
@@ -235,11 +248,10 @@ class Play extends Phaser.Scene {
             this.userSpeed = 0
         }
 
-
-/*
+*/
         //from golf ball collison detection lecture with modifications
         //if the player hits a hazard, end game, set those velocities to zero, and stop spritesheet
-        this.physics.add.collider(this.hazards, this.driver, (hazards, driver) => {                         
+        this.physics.add.collider(this.hazard, this.driver, (hazard, driver) => {                         
             driver.setVelocity(0,0)
             hazards.setVelocity(0,0)
             this.racetrack.tilePositionx += 0
@@ -248,6 +260,5 @@ class Play extends Phaser.Scene {
             this.add.text(game.config.width / 2, game.config.height / 2, '<- for tutorial. -> for credits', tutorialConfig).setOrigin(0.5)
             this.add.text(game.config.width / 2, game.config.height / 2 + 55, 'Spacebar to PLAY!!!', tutorialConfig).setOrigin(0.5)
         })
-*/
     }
 }
