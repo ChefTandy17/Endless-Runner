@@ -28,7 +28,7 @@ let config = {
             debug: true             
         },
     },
-    scene: [Menu, Play, Tutorial]
+    scene: [Menu, Play, Tutorial, Credits]
 };
 
 //set up the game
