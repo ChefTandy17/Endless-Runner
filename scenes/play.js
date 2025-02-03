@@ -89,9 +89,9 @@ class Play extends Phaser.Scene {
 }
 
     updateTimer() {
-        this.increaseTime += 1
+        this.increaseTime += 1  //increase by one
 
-        this.timerText.setText('Time: ' + this.increaseTime)
+        this.timerText.setText('Time: ' + this.increaseTime)    //display on text
     }
 
     //to spawn hazards around the map
@@ -213,12 +213,18 @@ class Play extends Phaser.Scene {
             //if(//user score is some value){
             // }
         })
-/*
+
         //from golf ball collison detection lecture with modifications
+        //if the player hits a hazard, end game, set those velocities to zero, and stop spritesheet
         this.physics.add.collider(this.hazards, this.driver, (hazards, driver) => {                         
             driver.setVelocity(0,0)
+            hazards.setVelocity(0,0)
+            this.racetrack.tilePositionx += 0
             //game over text
+            this.add.text(game.config.width / 2, (game.config.height / 2) - 80, 'YOU CRASHED', titleConfig).setOrigin(0.5)
+            this.add.text(game.config.width / 2, game.config.height / 2, '<- for tutorial. -> for credits', tutorialConfig).setOrigin(0.5)
+            this.add.text(game.config.width / 2, game.config.height / 2 + 55, 'Spacebar to PLAY!!!', tutorialConfig).setOrigin(0.5)
         })
-*/
+
     }
 }
