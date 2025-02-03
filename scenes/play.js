@@ -15,13 +15,14 @@ class Play extends Phaser.Scene {
     }
 
     create() {
-        //may not be needed, just for safety
+        
         this.racetrack = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'racetrack').setOrigin(0)
         this.driver = this.physics.add.sprite(game.config.width / 6, game.config.height / 2, 'driver')
         this.hazard = this.load.image('hazard','assets/hazard.png')
 
-        //from lecture
-        this.cursors = this.input.keyboard.createCursorKeys()
+        //if the user wants to restart
+        this.cursors = this.input.keyboard.createCursorKeys() //from lecture
+        this.Rkey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R)
 
         //to adjust the hitbox of the driver
         this.driver.body.setCollideWorldBounds(true)
@@ -41,7 +42,7 @@ class Play extends Phaser.Scene {
         invisibleBarrierTop.body.setImmovable(true)      
         invisibleBarrierBottom.body.setImmovable(true) 
 
-        this.physics.add.collider(this.driver, this.hazard, this.handleCollision, null, this)
+        this.physics.add.collider(this.driver, this.hazard, this.handleCollision)
 
         //background music
         this.backgroundMusic = this.sound.add('backgroundMusic', {
@@ -51,7 +52,7 @@ class Play extends Phaser.Scene {
         this.backgroundMusic.play()
 
         //to set up a timer system
-        this.p1Timer = 0    
+        this.p1Timer = 0
 
         //scoring system text
         this.increaseTime = 0
@@ -95,7 +96,7 @@ class Play extends Phaser.Scene {
 
     //to spawn hazards around the map
     spawnHazard() {
-        //random y positiion from Phaser
+        //random y position from Phaser
         let y = Phaser.Math.Between(60, game.config.height - 100)   //to prevent hazards to spawn somewhere else
         let hazard = this.physics.add.sprite(game.config.width, y, 'hazard')
         hazard.setVelocityX(-this.hazardSpeed)                      //moving from the left
@@ -200,8 +201,12 @@ class Play extends Phaser.Scene {
         }
 
         //if the player wants to restart, they can press R
-        //if (this.cursors.down)
-    
+        if (Phaser.Input.Keyboard.JustDown(this.Rkey)) {
+            this.driver.setPosition(game.config.width / 6, game.config.height / 2);
+            this.increaseTime = 0;
+            this.timerText.setText('Time: ' + this.increaseTime)
+        }
+
         //from lecture
         if (playerVector.length() > 0) {
             playerVector.normalize()                        //to normalize the vector when moving diagonal
@@ -225,6 +230,7 @@ class Play extends Phaser.Scene {
                 hazard.destroy()
             }
         })
+
 
 /*
 
