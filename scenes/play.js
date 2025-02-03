@@ -50,13 +50,33 @@ class Play extends Phaser.Scene {
         })
         this.backgroundMusic.play()
 
-    /*
+        //to set up a timer system
+        this.p1Timer = 0    
+
+
+        //scoring system text
+        this.increaseTime = 0
+        this.timerText = this.add.text(10, 10, 'Time: 0', { 
+            fontSize: '32px', 
+            fill: '#FFFFFF', 
+            backgroundColor: '#808080',
+        })
+
+        //scoring system event
+        this.time.addEvent({
+            delay: 1000,                // 1 second
+            callback: this.updateTimer,     //calls updateTimer function
+            callbackScope: this,
+            loop: true
+        })
+
+    /* testing to see if a hazard spawns
         this.time.delayedCall(2500, () => { 
             this.spawnHazard(); 
         });
     */
 
-    //delay timer
+    //delay timer for new players
     this.time.delayedCall(5000, () => {
         //after that, spawn hazards
         this.time.addEvent({
@@ -67,6 +87,12 @@ class Play extends Phaser.Scene {
         })
     }, [], this)
 }
+
+    updateTimer() {
+        this.increaseTime += 1
+
+        this.timerText.setText('Time: ' + this.increaseTime)
+    }
 
     //to spawn hazards around the map
     spawnHazard() {
