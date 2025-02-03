@@ -110,6 +110,19 @@ class Play extends Phaser.Scene {
 
     }
 
+    //using AABB (Axis-Aligned Bounding Boxes) collision detection from lecture
+    crashDetection(){
+        if(this.driver.x < this.hazard.x + this.hazard.width &&
+            this.driver.x + this.driver.width > this.hazard.x &&
+            this.driver.y < this.hazard.y + this.hazard.height &&
+            this.driver.height + this.driver.y > this.hazard.y){
+            return true;
+            }    
+        else{
+            return false
+        }
+    }
+
     update() {
         //create a series of animations. keys is the name, frames for animation from start to end, frame rate, and repeat.
         this.anims.create({
@@ -214,6 +227,16 @@ class Play extends Phaser.Scene {
             // }
         })
 
+        //to game over screen if there is collision detection
+        if(this.crashDetection(this.driver, this.hazard)){
+            hazard.setVelocityX(0)
+            driver.setVelocityX(0)
+            this.hazardSpeed = 0
+            this.userSpeed = 0
+        }
+
+
+/*
         //from golf ball collison detection lecture with modifications
         //if the player hits a hazard, end game, set those velocities to zero, and stop spritesheet
         this.physics.add.collider(this.hazards, this.driver, (hazards, driver) => {                         
@@ -225,6 +248,6 @@ class Play extends Phaser.Scene {
             this.add.text(game.config.width / 2, game.config.height / 2, '<- for tutorial. -> for credits', tutorialConfig).setOrigin(0.5)
             this.add.text(game.config.width / 2, game.config.height / 2 + 55, 'Spacebar to PLAY!!!', tutorialConfig).setOrigin(0.5)
         })
-
+*/
     }
 }
