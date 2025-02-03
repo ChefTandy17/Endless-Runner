@@ -70,11 +70,8 @@ class Menu extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(this.leftkey)) {
             this.scene.start('tutorialScene');
         }
-        //doesn't exist just yet
-        /*
-        if (Phaser.Input.Keyboard.JustDown(this.rightKey)) {
+        if (Phaser.Input.Keyboard.JustDown(this.rightkey)) {
             this.scene.start('creditsScene')
         }
-        */
     }
 }
