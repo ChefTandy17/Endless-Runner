@@ -13,7 +13,10 @@ class Menu extends Phaser.Scene {
         this.load.image('hazard','assets/hazard.png')
 
         //add music and sound effects
-        this.load.audio('backgroundMusic','assets/background.mp3')  
+        this.load.audio('backgroundMusic','assets/background.mp3')
+        this.load.audio('engineDriving','assets/goKartDriving.mp3') 
+        this.load.audio('railingCrash','./assets/railingCrash.wav')
+
     }
 
     create() {
