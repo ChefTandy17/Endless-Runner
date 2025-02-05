@@ -123,7 +123,7 @@ class Play extends Phaser.Scene {
         this.hazardEvent.remove()
         this.racetrack.tilePositionX = 0
         this.isItGameOver = true;  
-        this.timerEvent.paused = false
+        this.timerEvent.paused = true
     }
 
 /*
@@ -219,6 +219,11 @@ class Play extends Phaser.Scene {
         //if the player wants to restart, they can press R
         if (Phaser.Input.Keyboard.JustDown(this.Rkey)) {
             this.scene.restart()
+            this.racetrack.tilePositionX += 15
+            this.physics.resume()
+            //this.backgroundMusic.play();
+            this.isItGameOver = false;  
+            this.timerEvent.paused = false
             /*
             this.driver.setPosition(game.config.width / 6, game.config.height / 2);
             this.increaseTime = 0;
