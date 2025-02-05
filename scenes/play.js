@@ -75,11 +75,11 @@ class Play extends Phaser.Scene {
         })
 
         //scoring system event
-        this.time.addEvent({
+        this.timerEvent = this.time.addEvent({
             delay: 1000,                    // 1 second
             callback: this.updateTimer,     //calls updateTimer function
             callbackScope: this,
-            loop: true
+            loop: true,
         })
 
     /* testing to see if a hazard spawns
@@ -122,7 +122,8 @@ class Play extends Phaser.Scene {
         }).setOrigin(0.5)
         this.hazardEvent.remove()
         this.racetrack.tilePositionX = 0
-        this.isItGameOver = true;
+        this.isItGameOver = true;  
+        this.timerEvent.paused = false
     }
 
 /*
@@ -235,11 +236,11 @@ class Play extends Phaser.Scene {
             this.driver.anims.play('idle', true)
         }
 
-        //flag
+        //flag cause it still spawns hazard when the game is over
         if(this.isItGameOver == true){
             return true;
         }
-    
+        
         //to move the driver
         this.driver.setVelocity(playerVector.x, playerVector.y)
         
