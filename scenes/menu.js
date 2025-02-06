@@ -15,7 +15,8 @@ class Menu extends Phaser.Scene {
         //add music and sound effects
         this.load.audio('backgroundMusic','assets/background.mp3')
         this.load.audio('engineDriving','assets/goKartDriving.mp3') 
-        this.load.audio('railingCrash','./assets/railingCrash.wav')
+        this.load.audio('railingCrash','assets/railingCrash.wav')
+        this.load.audio('hurtAudio','assets/oww.mp3')
 
     }
 

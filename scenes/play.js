@@ -32,28 +32,10 @@ class Play extends Phaser.Scene {
         let invisibleBarrierTop = this.physics.add.sprite(0, 50).setOrigin(0).setSize(3000, 20).setVisible(false)
         let invisibleBarrierBottom = this.physics.add.sprite(0, 435).setOrigin(0).setSize(3000, 20).setVisible(false)     
 
-        // Add collision detection between driver and invisible barriers
-        this.physics.add.collider(this.driver, invisibleBarrierTop) 
-        this.physics.add.collider(this.driver, invisibleBarrierBottom)
+        // Add collision detection between driver and invisible barriers, and play a sound if it does
+        this.physics.add.collider(this.driver, invisibleBarrierTop, this.railingCrash, null, this);
+        this.physics.add.collider(this.driver, invisibleBarrierBottom, this.railingCrash, null, this);
 
-        
- /*     // add collison detection that plays a sound when crash  
-        this.physics.add.collider(this.driver, this.invisibleBarrierTop, (driver, invisibleBarrierTop) => {
-            this.railingCrash = this.sound.add('railingCrash', {
-                volume: 0.3,
-                loop: false,
-            })
-            this.railingCrash.play()
-        })
-
-        this.physics.add.collider(this.driver, this.invisibleBarrierBottom, (driver, invisibleBarrierBottom) => {
-            this.railingCrash = this.sound.add('railingCrash', {
-                volume: 0.3,
-                loop: false,
-            })
-            this.railingCrash.play()
-        })
-*/
 
         invisibleBarrierTop.body.setImmovable(true)      
         invisibleBarrierBottom.body.setImmovable(true) 
@@ -65,6 +47,17 @@ class Play extends Phaser.Scene {
         })
         this.backgroundMusic.play()
 
+        //player hurts 
+        this.hurtSound = this.sound.add('hurtAudio', {
+            volume: 0.2,
+            loop: false,
+        })
+
+        //railing crash
+        this.railingCrashSound = this.sound.add('railingCrash', {
+            volume: 0.1,
+            loop: false,
+        })
 
         //scoring system text
         this.increaseTime = 0           //scoring time
@@ -96,6 +89,12 @@ class Play extends Phaser.Scene {
             });
     }
 
+    railingCrash(driver, barrier){
+        if (this.railingCrashSound) {
+            this.railingCrashSound.play()
+        }
+    }
+
     updateTimer() {
         this.increaseTime += 1                                  //increase by one second
         this.timerText.setText('Time: ' + this.increaseTime)    //display on text
@@ -115,15 +114,19 @@ class Play extends Phaser.Scene {
         this.physics.pause()
         this.driver.setTint(0xff0000)           //in lecture, you can tint a sprite :O
         this.driver.anims.play('idle')
-        this.backgroundMusic.stop();
+        this.backgroundMusic.stop()
+
         this.add.text(game.config.width / 2, game.config.height / 2, 'GAME OVER. Press R to restart', {
             fontSize: '64px',
             fill: '#ff0000'
         }).setOrigin(0.5)
+        this.hurtSound.play()
+
         this.hazardEvent.remove()
         this.racetrack.tilePositionX = 0
         this.isItGameOver = true;  
         this.timerEvent.paused = true
+        
     }
 
 /*
@@ -243,7 +246,7 @@ class Play extends Phaser.Scene {
 
         //flag cause it still spawns hazard when the game is over
         if(this.isItGameOver == true){
-            return true;
+            return true
         }
         
         //to move the driver
