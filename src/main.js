@@ -1,6 +1,6 @@
 //Name: Tyvin Tandy
 //Title: Streamer Driver
-//Approx Hours: 15 hour(s)
+//Approx Hours: 20 hour(s)
 //Creative Tilt: There is nothing program interesting... yet.
 //There is nothing visually interesting... yet
 
@@ -12,10 +12,6 @@
 
 // main game object for Phaser
 
-//Things to do
-//Use a minimum of four sound effects for key mechanics, UI, and/or significant events appropriate to your game design (1)   //in progress    
-//Run without significant crashes or errors (1)                                                         //in progress
-//Include in-game credits for all roles, assets, music, etc. (1)                                        //in progress
 
 let config = {
     type: Phaser.AUTO,
