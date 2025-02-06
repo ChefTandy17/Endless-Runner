@@ -23,10 +23,10 @@ class Play extends Phaser.Scene {
 
         //to adjust the hitbox of the driver
         this.driver.body.setCollideWorldBounds(true)
-        this.driver.body.setSize(200, 64); // Set the size of the hitbox (width, height)
-        this.driver.body.setOffset(40 , 64); // Set the offset of the hitbox (x, y)
+        this.driver.body.setSize(200, 40); // Set the size of the hitbox (width, height)
+        this.driver.body.setOffset(40 , 90); // Set the offset of the hitbox (x, y)
         this.driver.body.setCollideWorldBounds(true) //to avoid out of bounds play
-
+        this.driver.setDepth(1)
 
         //invisible barriers to create realism of hitting the side of the railings
         let invisibleBarrierTop = this.physics.add.sprite(0, 50).setOrigin(0).setSize(3000, 20).setVisible(false)
@@ -106,8 +106,9 @@ class Play extends Phaser.Scene {
         let hazard = this.physics.add.sprite(game.config.width, y, 'hazard')
         this.hazards.add(hazard)                                                          
         hazard.body.setVelocityX(-this.hazardSpeed)
-        hazard.body.setSize(64, 32)
-        hazard.body.setOffset(0, 32)
+        hazard.body.setSize(16, 16)
+        hazard.body.setOffset(40, 40)
+        hazard.setDepth(0)
     }
 
     crashDetection(driver, hazard) {

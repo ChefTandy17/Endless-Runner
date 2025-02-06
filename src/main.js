@@ -1,6 +1,6 @@
 //Name: Tyvin Tandy
 //Title: Streamer Driver
-//Approx Hours: 20 hour(s)
+//Approx Hours: 25 hour(s)
 //Creative Tilt: There is nothing program interesting... yet.
 //There is nothing visually interesting... yet
 
@@ -23,7 +23,7 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {                  
-            debug: true             
+            debug: true //to set debug mode on or off             
         },
     },
     scene: [Menu, Play, Tutorial, Credits, ]
