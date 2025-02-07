@@ -28,7 +28,7 @@ class Tutorial extends Phaser.Scene {
         this.racetrack = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'racetrack').setOrigin(0);
 
         //display directions
-        this.add.text(game.config.width / 2, game.config.height / 2 - 100, 'Left, Right, Up, Down keys to move', tutorialConfig).setOrigin(0.5);
+        this.add.text(game.config.width / 2, game.config.height / 2 - 100, 'Left, Right, Up, Down keys to move. R key to restart', tutorialConfig).setOrigin(0.5);
         this.add.text(game.config.width / 2, game.config.height / 2 - 45, 'Avoid hazards on the track', tutorialConfig).setOrigin(0.5);
         this.add.text(game.config.width / 2, game.config.height / 2 + 45, 'The game ends when you collide with a hazard', tutorialConfig).setOrigin(0.5);
         this.add.text(game.config.width / 2, game.config.height / 2 + 100, 'Press Spacebar to Menu', tutorialConfig).setOrigin(0.5);

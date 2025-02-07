@@ -2,7 +2,7 @@
 //Title: Streamer Driver
 //Approx Hours: 25 hour(s)
 //Creative Tilt: There is nothing program interesting... yet.
-//There is nothing visually interesting... yet
+//
 
 //Sources:
 //https://stackoverflow.com/questions/77334253/how-detecting-collisions-in-phaser-js
@@ -23,7 +23,7 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {                  
-            debug: false //to set debug mode on or off             
+            debug: true //to set debug mode on or off             
         },
     },
     scene: [Menu, Play, Tutorial, Credits, ]

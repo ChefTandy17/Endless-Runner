@@ -14,12 +14,14 @@ class Play extends Phaser.Scene {
         this.driver = this.physics.add.sprite(game.config.width / 6, game.config.height / 2, 'driver')
         this.load.image('hazard','assets/hazard.png')
 
-        //to create a hazard that spawns in the play scene
         this.physics.add.collider(this.driver, this.hazards, this.crashDetection, null, this);       //collision detection
 
         //if the user wants to restart
         this.cursors = this.input.keyboard.createCursorKeys() //from lecture
         this.Rkey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R)
+
+        //to menu scene key
+        this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
 
         //to adjust the hitbox of the driver
         this.driver.body.setCollideWorldBounds(true)
@@ -29,7 +31,7 @@ class Play extends Phaser.Scene {
         this.driver.setDepth(1)
 
         //invisible barriers to create realism of hitting the side of the railings
-        let invisibleBarrierTop = this.physics.add.sprite(0, 50).setOrigin(0).setSize(3000, 20).setVisible(false)
+        let invisibleBarrierTop = this.physics.add.sprite(0, 55).setOrigin(0).setSize(3000, 20).setVisible(false)
         let invisibleBarrierBottom = this.physics.add.sprite(0, 435).setOrigin(0).setSize(3000, 20).setVisible(false)     
 
         // Add collision detection between driver and invisible barriers, and play a sound if it does
@@ -124,17 +126,23 @@ class Play extends Phaser.Scene {
         this.driver.anims.play('idle')
         this.backgroundMusic.stop()
 
-        this.add.text(game.config.width / 2, game.config.height / 2, 'GAME OVER. Press R to restart', {
+        this.gameOverText = this.add.text(game.config.width / 2, game.config.height / 2, 'GAME OVER. Press R to restart', {
             fontSize: '64px',
             fill: '#ff0000'
         }).setOrigin(0.5)
+
         this.hurtSound.play()
+        this.gameOverText.setDepth(2)
 
         this.hazardEvent.remove()
         this.racetrack.tilePositionX = 0
         this.isItGameOver = true;  
         this.timerEvent.paused = true
-        
+
+        if (Phaser.Input.Keyboard.JustDown(this.spacebar)){
+            this.scene.start('menuScene')
+        }
+
     }
 
 /*
@@ -234,7 +242,7 @@ class Play extends Phaser.Scene {
             this.racetrack.tilePositionX += 15
             this.physics.resume()
             //this.backgroundMusic.play();
-            this.isItGameOver = false;  
+            this.isItGameOver = false  
             this.timerEvent.paused = false
 
             /*
@@ -255,10 +263,25 @@ class Play extends Phaser.Scene {
         }
 
         //flag cause it still spawns hazard when the game is over
-        if(this.isItGameOver == true){
+        if (this.isItGameOver == true){
             return true
         }
-        
+
+
+/*      //testing flag for the spacebar function to work to go back to menu scene
+        if (this.isItGameOver = true && this.timerEvent.paused == true){
+            if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
+                this.scene.start('menuScene')
+            }
+        }
+
+
+        if (Phaser.Input.Keyboard.JustDown(this.spacebar)){
+            this.scene.start('menuScene')
+        }
+
+*/
+
         //to move the driver
         this.driver.setVelocity(playerVector.x, playerVector.y)
         
