@@ -139,10 +139,6 @@ class Play extends Phaser.Scene {
         this.isItGameOver = true;  
         this.timerEvent.paused = true
 
-        if (Phaser.Input.Keyboard.JustDown(this.spacebar)){
-            this.scene.start('menuScene')
-        }
-
     }
 
 /*
@@ -262,9 +258,16 @@ class Play extends Phaser.Scene {
             this.driver.anims.play('idle', true)
         }
 
-        //flag cause it still spawns hazard when the game is over
-        if (this.isItGameOver == true){
-            return true
+        //flag to prevent hazard spawn and to make spacebar input useable
+        if (this.isItGameOver){
+            if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
+                this.racetrack.tilePositionX += 15
+                this.physics.resume()
+                this.isItGameOver = false  
+                this.timerEvent.paused = false
+                this.scene.start('menuScene');
+            }
+            return
         }
 
 

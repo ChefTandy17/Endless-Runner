@@ -25,8 +25,6 @@ class Menu extends Phaser.Scene {
 
     create() {
         //create two title configs on what the font, size, colour, etc would look like
-        
-        
         this.menuAudio = this.sound.add('menuMusic', {
             volume: 0.1,
             loop: true,
