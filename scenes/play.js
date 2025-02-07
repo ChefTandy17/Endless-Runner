@@ -9,11 +9,11 @@ class Play extends Phaser.Scene {
         this.hazards = this.physics.add.group()
 
         //to create challenges to spawn different hazard intevals
-        this.delayHazard1 = 2500
-        this.delayHazard2 = 3000
-        this.delayHazard3 = 4000
-        this.delayHazard4 = 5500
-        this.delayHazard5 = 1000
+        this.delayHazard1 = 2200
+        this.delayHazard2 = 2400
+        this.delayHazard3 = 3000
+        this.delayHazard4 = 4700
+        this.delayHazard5 = 1100
     }
 
     create() {
