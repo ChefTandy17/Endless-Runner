@@ -7,6 +7,9 @@ class Play extends Phaser.Scene {
         this.userSpeed = 200
         this.hazardSpeed = 500
         this.hazards = this.physics.add.group()
+
+        //to create challenges to spawn different hazard intevals
+        this.delayHazard = 2500
     }
 
     create() {
@@ -16,7 +19,6 @@ class Play extends Phaser.Scene {
 
         this.physics.add.collider(this.driver, this.hazards, this.crashDetection, null, this);       //collision detection
 
-        //if the user wants to restart
         this.cursors = this.input.keyboard.createCursorKeys() //from lecture
         this.Rkey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R)
 
@@ -61,7 +63,7 @@ class Play extends Phaser.Scene {
             loop: false,
         })
 
-        /*  //used for go cart noise when driving. way too buggy.
+        /*  //used for go cart noise when driving. was way too buggy.
         this.goKartDriving = this.sound.add('engineDriving', {
             volume: 0.4,
             loop: true,
@@ -89,9 +91,9 @@ class Play extends Phaser.Scene {
             this.spawnHazard(); 
         });
     */
-        //spawn hazard based on the delay. should be 15 seconds, but its 2 seconds for testing
+        //spawn hazard based on the delay.
         this.hazardEvent = this.time.addEvent({
-            delay: 2500,
+            delay: this.delayHazard,
             callback: this.spawnHazard,
             callbackScope: this,
             loop: true,
@@ -110,6 +112,8 @@ class Play extends Phaser.Scene {
     }
 
     spawnHazard() {
+    //to delay when hazards would spawn
+    if (this.increaseTime >= 15) {
         //random y position from Phaser
         let y = Phaser.Math.Between(60, game.config.height - 100)   //to prevent hazards to spawn somewhere else
         let hazard = this.physics.add.sprite(game.config.width, y, 'hazard')
@@ -118,6 +122,17 @@ class Play extends Phaser.Scene {
         hazard.body.setSize(16, 16)
         hazard.body.setOffset(40, 40)
         hazard.setDepth(0)
+        this.delayHazard = 2500
+        }
+    if (this.increaseTime >= 30) {
+        let y = Phaser.Math.Between(60, game.config.height - 200)   //to prevent hazards to spawn somewhere else
+        let hazard = this.physics.add.sprite(game.config.width, y, 'hazard')
+        this.hazards.add(hazard)                                                          
+        hazard.body.setVelocityX(-this.hazardSpeed)
+        hazard.body.setSize(16, 16)
+        hazard.body.setOffset(40, 40)
+        hazard.setDepth(0)
+        }    
     }
 
     crashDetection(driver, hazard) {
@@ -146,7 +161,6 @@ class Play extends Phaser.Scene {
         this.racetrack.tilePositionX = 0
         this.isItGameOver = true;  
         this.timerEvent.paused = true
-
     }
 
 /*
@@ -275,6 +289,37 @@ class Play extends Phaser.Scene {
                 this.timerEvent.paused = false
                 this.scene.start('menuScene');
             }
+            //to change the sprite animation to idle, even when pressing these input keys
+            if (this.cursors.left.isDown) {
+                this.driver.anims.play('idle', true)
+            } 
+    
+            if (this.cursors.right.isDown) {
+                this.driver.anims.play('idle', true)
+            }
+            if (this.cursors.up.isDown) {
+                if (this.cursors.left.isDown) {
+                    this.driver.anims.play('idle', true)
+                } 
+                else if (this.cursors.right.isDown) {
+                    this.driver.anims.play('idle', true)
+                } 
+                else {
+                    this.driver.anims.play('idle', true)
+                }
+            } 
+    
+            if (this.cursors.down.isDown) {
+                if (this.cursors.left.isDown) {
+                    this.driver.anims.play('idle', true)
+                } 
+                else if (this.cursors.right.isDown) {
+                    this.driver.anims.play('idle', true)
+                } 
+                else {
+                    this.driver.anims.play('idle', true)
+                }
+            }
             return
         }
 
@@ -311,7 +356,6 @@ class Play extends Phaser.Scene {
         })
 */
 
-
 /*
         //to game over screen if there is collision detection
         if(this.crashDetection(this.driver, this.hazard)){
@@ -321,7 +365,6 @@ class Play extends Phaser.Scene {
             this.userSpeed = 0
         }
 
-*/
 /*
         //from golf ball collison detection lecture with modifications
         //if the player hits a hazard, end game, set those velocities to zero, and stop spritesheet
