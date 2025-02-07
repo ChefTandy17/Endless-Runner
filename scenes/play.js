@@ -126,13 +126,21 @@ class Play extends Phaser.Scene {
         this.driver.anims.play('idle')
         this.backgroundMusic.stop()
 
-        this.gameOverText = this.add.text(game.config.width / 2, game.config.height / 2, 'GAME OVER. Press R to restart', {
+        this.gameOverText = this.add.text(game.config.width / 2, game.config.height / 2, 'GAME OVER. Press R to restart or ', {
             fontSize: '64px',
-            fill: '#ff0000'
+            fill: '#828282',
+            backgroundColor: '#5c092d',
+        }).setOrigin(0.5)
+
+        this.pressSpaceText = this.add.text(game.config.width / 2, game.config.height / 1.5, 'press SPACE bar to menu', {
+            fontSize: '64px',
+            fill: '#828282',
+            backgroundColor: '#5c092d',
         }).setOrigin(0.5)
 
         this.hurtSound.play()
         this.gameOverText.setDepth(2)
+        this.pressSpaceText.setDepth(3)
 
         this.hazardEvent.remove()
         this.racetrack.tilePositionX = 0
