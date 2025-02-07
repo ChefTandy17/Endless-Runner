@@ -4,6 +4,12 @@ class Credits extends Phaser.Scene {
     }
 
     create() {
+        this.menuAudio = this.sound.add('menuMusic', {
+            volume: 0.1,
+            loop: true,
+        })
+        this.menuAudio.play()
+
         //what the text would look like if used
         let creditsConfig = {
             fontFamily: 'Impact',
@@ -23,7 +29,7 @@ class Credits extends Phaser.Scene {
 
         //display directions
         this.add.text(game.config.width / 2, game.config.height / 2 - 100, 'Sea Breeze by Audiogreen', creditsConfig).setOrigin(0.5);
-        this.add.text(game.config.width / 2, game.config.height / 2 - 45, 'Go Kart Racing by freesound_community', creditsConfig).setOrigin(0.5);
+        this.add.text(game.config.width / 2, game.config.height / 2 - 45, 'Rock and Roll by Audiogreen', creditsConfig).setOrigin(0.5);
         this.add.text(game.config.width / 2, game.config.height / 2, 'All sprites were made by me using PixelArt and Piskel', creditsConfig).setOrigin(0.5);
         this.add.text(game.config.width / 2, game.config.height / 2 + 45, 'Go Kart railing collision made using jsfxr', creditsConfig).setOrigin(0.5)
         this.add.text(game.config.width / 2, game.config.height / 2 + 100, 'Short Oww by freesound_community', creditsConfig).setOrigin(0.5)

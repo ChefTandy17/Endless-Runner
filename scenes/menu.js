@@ -16,12 +16,23 @@ class Menu extends Phaser.Scene {
         this.load.audio('backgroundMusic','assets/background.mp3')
         this.load.audio('engineDriving','assets/goKartDriving.mp3') 
         this.load.audio('railingCrash','assets/railingCrash.wav')
+
+        this.load.audio('menuMusic','assets/menu.mp3')
+        
         this.load.audio('hurtAudio','assets/oww.mp3')
 
     }
 
     create() {
         //create two title configs on what the font, size, colour, etc would look like
+        
+        
+        this.menuAudio = this.sound.add('menuMusic', {
+            volume: 0.1,
+            loop: true,
+        })
+        this.menuAudio.play();
+
         let titleConfig = {
             fontFamily: 'Impact',
             fontSize: '64px',
@@ -70,12 +81,15 @@ class Menu extends Phaser.Scene {
 
         //if the user selects these buttons, move to the next scene
         if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
+            this.menuAudio.pause()
             this.scene.start('playScene')
         }
         if (Phaser.Input.Keyboard.JustDown(this.leftkey)) {
+            this.menuAudio.pause()
             this.scene.start('tutorialScene');
         }
         if (Phaser.Input.Keyboard.JustDown(this.rightkey)) {
+            this.menuAudio.pause()
             this.scene.start('creditsScene')
         }
     }

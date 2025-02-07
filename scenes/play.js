@@ -59,6 +59,13 @@ class Play extends Phaser.Scene {
             loop: false,
         })
 
+        /*  //used for go cart noise when driving. way too buggy.
+        this.goKartDriving = this.sound.add('engineDriving', {
+            volume: 0.4,
+            loop: true,
+        })
+        */
+
         //scoring system text
         this.increaseTime = 0           //scoring time
         this.timerText = this.add.text(10, 10, 'Time: 0', { 
@@ -223,11 +230,13 @@ class Play extends Phaser.Scene {
         //if the player wants to restart, they can press R
         if (Phaser.Input.Keyboard.JustDown(this.Rkey)) {
             this.scene.restart()
+            this.backgroundMusic.stop()
             this.racetrack.tilePositionX += 15
             this.physics.resume()
             //this.backgroundMusic.play();
             this.isItGameOver = false;  
             this.timerEvent.paused = false
+
             /*
             this.driver.setPosition(game.config.width / 6, game.config.height / 2);
             this.increaseTime = 0;

@@ -18,6 +18,12 @@ class Tutorial extends Phaser.Scene {
             fixedWidth: 0
         };
 
+        this.menuAudio = this.sound.add('menuMusic', {
+            volume: 0.1,
+            loop: true,
+        })
+        this.menuAudio.play()
+
         //variable
         this.racetrack = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'racetrack').setOrigin(0);
 
