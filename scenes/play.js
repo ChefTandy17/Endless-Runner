@@ -9,7 +9,11 @@ class Play extends Phaser.Scene {
         this.hazards = this.physics.add.group()
 
         //to create challenges to spawn different hazard intevals
-        this.delayHazard = 2500
+        this.delayHazard1 = 2500
+        this.delayHazard2 = 3000
+        this.delayHazard3 = 4000
+        this.delayHazard4 = 5500
+        this.delayHazard5 = 1000
     }
 
     create() {
@@ -92,12 +96,40 @@ class Play extends Phaser.Scene {
         });
     */
         //spawn hazard based on the delay.
-        this.hazardEvent = this.time.addEvent({
-            delay: this.delayHazard,
-            callback: this.spawnHazard,
+        this.hazardEvent1 = this.time.addEvent({
+            delay: this.delayHazard1,
+            callback: this.spawnHazardLev1,
             callbackScope: this,
             loop: true,
-            });
+            })
+
+        this.hazardEvent2 = this.time.addEvent({
+            delay: this.delayHazard2,
+            callback: this.spawnHazardLev2,
+            callbackScope: this,
+            loop: true,
+            })
+
+        this.hazardEvent3 = this.time.addEvent({
+            delay: this.delayHazard3,
+            callback: this.spawnHazardLev3,
+            callbackScope: this,
+            loop: true,
+            })
+
+        this.hazardEvent4 = this.time.addEvent({
+            delay: this.delayHazard4,
+            callback: this.spawnHazardLev4,
+            callbackScope: this,
+            loop: true,
+            })
+
+        this.hazardEvent5 = this.time.addEvent({
+            delay: this.delayHazard5,
+            callback: this.spawnHazardLev4,
+            callbackScope: this,
+            loop: true,
+            })
     }
 
     railingCrash(driver, barrier){
@@ -111,7 +143,7 @@ class Play extends Phaser.Scene {
         this.timerText.setText('Time: ' + this.increaseTime)    //display on text
     }
 
-    spawnHazard() {
+    spawnHazardLev1() {
     //to delay when hazards would spawn
     if (this.increaseTime >= 15) {
         //random y position from Phaser
@@ -124,8 +156,35 @@ class Play extends Phaser.Scene {
         hazard.setDepth(0)
         this.delayHazard = 2500
         }
-    if (this.increaseTime >= 30) {
+    }
+
+    spawnHazardLev2(){
+        if (this.increaseTime >= 30) {
         let y = Phaser.Math.Between(60, game.config.height - 200)   //to prevent hazards to spawn somewhere else
+        let hazard = this.physics.add.sprite(game.config.width, y, 'hazard')
+        this.hazards.add(hazard)                                                          
+        hazard.body.setVelocityX(-this.hazardSpeed)
+        hazard.body.setSize(16, 16)
+        hazard.body.setOffset(40, 40)
+        hazard.setDepth(0)
+        }
+    }
+
+    spawnHazardLev3(){
+    if (this.increaseTime >= 45) {
+        let y = Phaser.Math.Between(60, game.config.height - 300)   //to prevent hazards to spawn somewhere else
+        let hazard = this.physics.add.sprite(game.config.width, y, 'hazard')
+        this.hazards.add(hazard)                                                          
+        hazard.body.setVelocityX(-this.hazardSpeed)
+        hazard.body.setSize(16, 16)
+        hazard.body.setOffset(40, 40)
+        hazard.setDepth(0)
+        }  
+    }
+
+    spawnHazardLev4(){
+    if (this.increaseTime >= 60) {
+        let y = Phaser.Math.Between(60, game.config.height - 400)   //to prevent hazards to spawn somewhere else
         let hazard = this.physics.add.sprite(game.config.width, y, 'hazard')
         this.hazards.add(hazard)                                                          
         hazard.body.setVelocityX(-this.hazardSpeed)
@@ -134,6 +193,19 @@ class Play extends Phaser.Scene {
         hazard.setDepth(0)
         }    
     }
+    
+    spawnHazardLev5(){
+        if (this.increaseTime >= 100) {
+            let y = Phaser.Math.Between(60, game.config.height - 200)   //to prevent hazards to spawn somewhere else
+            let hazard = this.physics.add.sprite(game.config.width, y, 'hazard')
+            this.hazards.add(hazard)                                                          
+            hazard.body.setVelocityX(-this.hazardSpeed)
+            hazard.body.setSize(16, 16)
+            hazard.body.setOffset(40, 40)
+            hazard.setDepth(0)
+        }        
+    }
+
 
     crashDetection(driver, hazard) {
         this.physics.pause()
@@ -157,7 +229,12 @@ class Play extends Phaser.Scene {
         this.gameOverText.setDepth(2)
         this.pressSpaceText.setDepth(3)
 
-        this.hazardEvent.remove()
+        this.hazardEvent1.remove()
+        this.hazardEvent2.remove()
+        this.hazardEvent3.remove()
+        this.hazardEvent4.remove()
+        this.hazardEvent5.remove()
+
         this.racetrack.tilePositionX = 0
         this.isItGameOver = true;  
         this.timerEvent.paused = true
