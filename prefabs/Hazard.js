@@ -1,7 +1,7 @@
 //Hazard prefab
 class Hazard extends Phaser.GameObjects.Sprite{
     constructor(scene, y, texture, frame){
-        //used paddle example from lecture to realize that you can set up scenes, body, and others
+        //used paddle example from lecture to set up scenes, body, and others variables.
         super(scene, x, y, texture, frame)
         this.scene = scene
         scene.add.existing(this)
@@ -11,16 +11,4 @@ class Hazard extends Phaser.GameObjects.Sprite{
         this.body.setOffset(0, 32)
         this.body.setImmovable(true)
     }
-
-
-//from lecture on how to add another hazard (barrier) to the game 
-/*
-    update(){
-        if(this.hazard && this.x < centerX) {
-            this.scene.(this.scene, this.velocity);
-            this.hazard = false;
-        }
-    }
-
-*/
 }

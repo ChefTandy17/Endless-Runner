@@ -37,7 +37,6 @@
 //apply collision, hitboxes, and movements of sprites from lecture and example codes.
 
 
-
 //Sources:
 //https://stackoverflow.com/questions/77334253/how-detecting-collisions-in-phaser-js
 //https://stackoverflow.com/questions/50988219/pause-and-resume-game-in-phaser-3
@@ -45,8 +44,6 @@
 //https://stackoverflow.com/questions/78176549/slightly-darken-when-hovered-in-phaser
 
 // main game object for Phaser
-
-
 let config = {
     type: Phaser.AUTO,
     width: 1500,

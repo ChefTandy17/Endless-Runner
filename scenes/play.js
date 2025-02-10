@@ -3,12 +3,12 @@ class Play extends Phaser.Scene {
         super('playScene')
     }
 
+    //to initialize the play.js scene
     init() {
+        //variables that holds numbers and holds physics groups
         this.userSpeed = 200
         this.hazardSpeed = 500
         this.hazards = this.physics.add.group()
-
-        //to create challenges to spawn different hazard intevals
         this.delayHazard1 = 2200
         this.delayHazard2 = 2400
         this.delayHazard3 = 3000
@@ -17,92 +17,87 @@ class Play extends Phaser.Scene {
     }
 
     create() {
+
+        //to load the racetrack image
         this.racetrack = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'racetrack').setOrigin(0)
+
+        //to create a driver variable
         this.driver = this.physics.add.sprite(game.config.width / 6, game.config.height / 2, 'driver')
-        this.load.image('hazard','assets/hazard.png')
-
-        this.physics.add.collider(this.driver, this.hazards, this.crashDetection, null, this);       //collision detection
-
-        this.cursors = this.input.keyboard.createCursorKeys() //from lecture
-        this.Rkey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R)
-
-        //to menu scene key
-        this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
-
-        //to adjust the hitbox of the driver
+        //to adjust the size hitbox of the driver to make sure it visually appealing when it crashed or collides with an object
+        this.driver.body.setSize(200, 40)
+        this.driver.body.setOffset(40 , 90)
+        //to avoid out of bounds play to stay in the game scene.
         this.driver.body.setCollideWorldBounds(true)
-        this.driver.body.setSize(200, 40); // Set the size of the hitbox (width, height)
-        this.driver.body.setOffset(40 , 90); // Set the offset of the hitbox (x, y)
-        this.driver.body.setCollideWorldBounds(true) //to avoid out of bounds play
+        //layering the driver higher for visual purposes.
         this.driver.setDepth(1)
 
-        //invisible barriers to create realism of hitting the side of the railings
+        //to load the hazard image
+        this.load.image('hazard','assets/hazard.png')
+
+        //to create collision detection with the driver and the hazard. if there is a collison,
+        //also call the crashDetection function to display additional information, audio, and pausing the game
+        this.physics.add.collider(this.driver, this.hazards, this.crashDetection, null, this)
+
+        //since the racetrack have barriers not out of bounds, create two invisible sprites 
+        //for visual purposes to make it look like the driver collides with a barrier
         let invisibleBarrierTop = this.physics.add.sprite(0, 55).setOrigin(0).setSize(3000, 20).setVisible(false)
         let invisibleBarrierBottom = this.physics.add.sprite(0, 435).setOrigin(0).setSize(3000, 20).setVisible(false)     
-
-        // Add collision detection between driver and invisible barriers, and play a sound if it does
+        
+        //add collision detection between driver and invisible barriers. additionally, call the 
+        //railing crash function to play continuous barrier crashing audio if player still collides with barrier
         this.physics.add.collider(this.driver, invisibleBarrierTop, this.railingCrash, null, this);
-        this.physics.add.collider(this.driver, invisibleBarrierBottom, this.railingCrash, null, this);
-
-
+        this.physics.add.collider(this.driver, invisibleBarrierBottom, this.railingCrash, null, this)
+        //to ensure that when there is a collision of any object it stays put
         invisibleBarrierTop.body.setImmovable(true)      
         invisibleBarrierBottom.body.setImmovable(true) 
 
-        //background music
+        //to create functional arrow input keys.
+        this.cursors = this.input.keyboard.createCursorKeys()   //createCursorsKeys is from Phaser, shortcut to create arrow keys functional
+        this.Rkey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R)            //variable used for reseting the game
+        this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)    //variable used for moving to a different scene
+
+        //to create a background music audio variable
         this.backgroundMusic = this.sound.add('backgroundMusic', {
             volume: 0.1,
             loop: true,
         })
         this.backgroundMusic.play()
-
-        //player hurts 
+        //to create a player hurt audio variable
         this.hurtSound = this.sound.add('hurtAudio', {
             volume: 0.2,
             loop: false,
         })
-
-        //railing crash
+        //to create a player railing crash audio variable
         this.railingCrashSound = this.sound.add('railingCrash', {
             volume: 0.1,
             loop: false,
         })
 
-        /*  //used for go cart noise when driving. was way too buggy.
-        this.goKartDriving = this.sound.add('engineDriving', {
-            volume: 0.4,
-            loop: true,
-        })
-        */
-
-        //scoring system text
-        this.increaseTime = 0           //scoring time
+        //creating a simple scoring system, which is a timer of how long the driver is surviving the racetrack.
+        this.increaseTime = 0                                                               //time variable
         this.timerText = this.add.text(10, 10, 'Time: 0', { 
             fontSize: '32px', 
             fill: '#FFFFFF', 
             backgroundColor: '#808080',
         })
 
-        //scoring system event
+        //scoring system event variable. 
         this.timerEvent = this.time.addEvent({
-            delay: 1000,                    // 1 second
+            delay: 1000,                    //this is to create a timer as a seconds stopwatch
             callback: this.updateTimer,     //calls updateTimer function
             callbackScope: this,
-            loop: true,
+            loop: true,                     //keep looping it
         })
 
-    /* testing to see if a hazard spawns
-        this.time.delayedCall(2500, () => { 
-            this.spawnHazard(); 
-        });
-    */
-        //spawn hazard based on the delay.
+        //spawning hazard event variable
         this.hazardEvent1 = this.time.addEvent({
-            delay: this.delayHazard1,
-            callback: this.spawnHazardLev1,
+            delay: this.delayHazard1,       //from init function
+            callback: this.spawnHazardLev1, //calls spawnHazardLev1 function
             callbackScope: this,
             loop: true,
             })
-
+        
+        //all hazard events serve the same purpose
         this.hazardEvent2 = this.time.addEvent({
             delay: this.delayHazard2,
             callback: this.spawnHazardLev2,
@@ -132,35 +127,39 @@ class Play extends Phaser.Scene {
             })
     }
 
+    //when railing crash function is called, play railing crash sound
     railingCrash(driver, barrier){
         if (this.railingCrashSound) {
             this.railingCrashSound.play()
         }
     }
 
+    //when updateTimer function is called, increase the timer and display the text
     updateTimer() {
-        this.increaseTime += 1                                  //increase by one second
-        this.timerText.setText('Time: ' + this.increaseTime)    //display on text
+        this.increaseTime += 1                                  
+        this.timerText = this.timerText.setText('Time: ' + this.increaseTime)
+        this.timerText.setDepth(4)
     }
 
+    //when the function is called, spawn hazards. Other functions do the same purpose with a different
+    //timer and location to spawn a hazard 
     spawnHazardLev1() {
-    //to delay when hazards would spawn
     if (this.increaseTime >= 15) {
-        //random y position from Phaser
-        let y = Phaser.Math.Between(60, game.config.height - 100)   //to prevent hazards to spawn somewhere else
-        let hazard = this.physics.add.sprite(game.config.width, y, 'hazard')
-        this.hazards.add(hazard)                                                          
-        hazard.body.setVelocityX(-this.hazardSpeed)
-        hazard.body.setSize(16, 16)
+        let y = Phaser.Math.Between(60, game.config.height - 100)                       //to prevent hazards to spawn over the barrier
+        let hazard = this.physics.add.sprite(game.config.width, y, 'hazard')            //create physics with the sprite   
+        this.hazards.add(hazard)                                                        //add the hazard in the map
+        hazard.body.setVelocityX(-this.hazardSpeed)                                     //move the hazard left
+        //hitbox for the hazards
+        hazard.body.setSize(16, 16)                                                 
         hazard.body.setOffset(40, 40)
-        hazard.setDepth(0)
+        hazard.setDepth(0)                                                              //layering for visual purposes
         this.delayHazard = 2500
         }
     }
 
     spawnHazardLev2(){
         if (this.increaseTime >= 30) {
-        let y = Phaser.Math.Between(60, game.config.height - 200)   //to prevent hazards to spawn somewhere else
+        let y = Phaser.Math.Between(60, game.config.height - 200)
         let hazard = this.physics.add.sprite(game.config.width, y, 'hazard')
         this.hazards.add(hazard)                                                          
         hazard.body.setVelocityX(-this.hazardSpeed)
@@ -172,7 +171,7 @@ class Play extends Phaser.Scene {
 
     spawnHazardLev3(){
     if (this.increaseTime >= 45) {
-        let y = Phaser.Math.Between(60, game.config.height - 300)   //to prevent hazards to spawn somewhere else
+        let y = Phaser.Math.Between(60, game.config.height - 300)
         let hazard = this.physics.add.sprite(game.config.width, y, 'hazard')
         this.hazards.add(hazard)                                                          
         hazard.body.setVelocityX(-this.hazardSpeed)
@@ -184,7 +183,7 @@ class Play extends Phaser.Scene {
 
     spawnHazardLev4(){
     if (this.increaseTime >= 60) {
-        let y = Phaser.Math.Between(60, game.config.height - 400)   //to prevent hazards to spawn somewhere else
+        let y = Phaser.Math.Between(60, game.config.height - 400)
         let hazard = this.physics.add.sprite(game.config.width, y, 'hazard')
         this.hazards.add(hazard)                                                          
         hazard.body.setVelocityX(-this.hazardSpeed)
@@ -196,7 +195,7 @@ class Play extends Phaser.Scene {
     
     spawnHazardLev5(){
         if (this.increaseTime >= 100) {
-            let y = Phaser.Math.Between(60, game.config.height - 200)   //to prevent hazards to spawn somewhere else
+            let y = Phaser.Math.Between(60, game.config.height - 100)
             let hazard = this.physics.add.sprite(game.config.width, y, 'hazard')
             this.hazards.add(hazard)                                                          
             hazard.body.setVelocityX(-this.hazardSpeed)
@@ -206,57 +205,61 @@ class Play extends Phaser.Scene {
         }        
     }
 
-
+    //when the function is called, do these things to display a game over screen
     crashDetection(driver, hazard) {
+        //used to pause the physics
         this.physics.pause()
-        this.driver.setTint(0xff0000)           //in lecture, you can tint a sprite :O
+
+        //to tint the driver sprite to red, to indicate the driver being hurt
+        this.driver.setTint(0xff0000)
+
+        //play driver idle animation
         this.driver.anims.play('idle')
+        
+        //to stop any background music.
         this.backgroundMusic.stop()
 
+        //to display a game over and restart input screen
         this.gameOverText = this.add.text(game.config.width / 2, game.config.height / 2, 'GAME OVER. Press R to restart or ', {
             fontSize: '64px',
             fill: '#828282',
             backgroundColor: '#5c092d',
         }).setOrigin(0.5)
 
+        //to display a main menu input screen
         this.pressSpaceText = this.add.text(game.config.width / 2, game.config.height / 1.5, 'press SPACE bar to menu', {
             fontSize: '64px',
             fill: '#828282',
             backgroundColor: '#5c092d',
         }).setOrigin(0.5)
 
+        //play a hurt sound, as if the driver got hurt
         this.hurtSound.play()
+
+        //layered to prevent text being blocked by the driver or hazards
         this.gameOverText.setDepth(2)
         this.pressSpaceText.setDepth(3)
 
+        //to stop the events
         this.hazardEvent1.remove()
         this.hazardEvent2.remove()
         this.hazardEvent3.remove()
         this.hazardEvent4.remove()
         this.hazardEvent5.remove()
 
+        //pause the racetrack movement
         this.racetrack.tilePositionX = 0
+
+        //flags to trigger other parts of the code
         this.isItGameOver = true;  
+
+        //pause the timer
         this.timerEvent.paused = true
     }
 
-/*
-    //using AABB (Axis-Aligned Bounding Boxes) collision detection from lecture with modifications
-    crashDetection(driver, hazard) {
-        if(driver.x < hazard.x + hazard.width &&
-               driver.x + driver.width > hazard.x &&
-               driver.y < hazard.y + hazard.height &&
-               driver.height + driver.y > hazard.y){
-                return true
-               }
-        else{
-            return false
-        }
-    }
-*/
-
     update() {
-        //create a series of animations. keys is the name, frames for animation from start to end, frame rate, and repeat.
+
+        //create a series of animations for the driver
         this.anims.create({
             key: 'idle',
             frames: this.anims.generateFrameNumbers('driver', { 
@@ -287,10 +290,10 @@ class Play extends Phaser.Scene {
             repeat: -1
         });
 
-        //from lecture
+        //Used example lecture notes to create a smooth and constant movement speed
         let playerVector = new Phaser.Math.Vector2(0, 0)
-        playerVector.x -= 0.3           //when no buttons pressed, go back slightly
-        let animationKey = 'idle'       //from lecture its playeDirection. animationKey makes sense for me
+        playerVector.x -= 0.3                                                       //when no buttons pressed, go back slightly
+        let animationKey = 'idle'                                                   //from lecture its playeDirection. animationKey makes sense for me
     
         //when the user presses an input, play an animation and change its vector
         if (this.cursors.left.isDown) {
@@ -303,7 +306,7 @@ class Play extends Phaser.Scene {
             animationKey = 'driving-down-or-right';
         }
     
-        //when players press multiple input keys (maybe these need better names for animation keys)
+        //when the player press multiple input keys, use an if statements to determine which animation to play
         if (this.cursors.up.isDown) {
             playerVector.y -= 1;
             if (this.cursors.left.isDown) {
@@ -330,26 +333,19 @@ class Play extends Phaser.Scene {
             }
         }
 
-        //if the player wants to restart, they can press R
+        //if the player wants to restart, they can press R anytime, which resets the scene
         if (Phaser.Input.Keyboard.JustDown(this.Rkey)) {
             this.scene.restart()
             this.backgroundMusic.stop()
             this.racetrack.tilePositionX += 15
             this.physics.resume()
-            //this.backgroundMusic.play();
             this.isItGameOver = false  
             this.timerEvent.paused = false
-
-            /*
-            this.driver.setPosition(game.config.width / 6, game.config.height / 2);
-            this.increaseTime = 0;
-            this.timerText.setText('Time: ' + this.increaseTime)
-            */
         }
 
-        //from lecture
+        //from lecture to normalize the vectors when moving diagonal and playing animation
         if (playerVector.length() > 0) {
-            playerVector.normalize()                        //to normalize the vector when moving diagonal
+            playerVector.normalize()              
             playerVector.scale(this.userSpeed)              
             this.driver.anims.play(animationKey, true)      
         } 
@@ -366,7 +362,7 @@ class Play extends Phaser.Scene {
                 this.timerEvent.paused = false
                 this.scene.start('menuScene');
             }
-            //to change the sprite animation to idle, even when pressing these input keys
+            //to change the sprite animation to idle if player using movement keys, for visual purposes
             if (this.cursors.left.isDown) {
                 this.driver.anims.play('idle', true)
             } 
@@ -400,60 +396,10 @@ class Play extends Phaser.Scene {
             return
         }
 
-
-/*      //testing flag for the spacebar function to work to go back to menu scene
-        if (this.isItGameOver = true && this.timerEvent.paused == true){
-            if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
-                this.scene.start('menuScene')
-            }
-        }
-
-
-        if (Phaser.Input.Keyboard.JustDown(this.spacebar)){
-            this.scene.start('menuScene')
-        }
-
-*/
-
         //to move the driver
         this.driver.setVelocity(playerVector.x, playerVector.y)
         
-        //to move the racetrack, this time much faster
+        //to move the racetrack to make it seemingless endless, this time much faster than the other scenes.
         this.racetrack.tilePositionX += 15
-
-/*
-
-        this.hazards.forEach(hazard => {
-            if (this.crashDetection(driver, hazard) == true) {
-                hazard.setVelocityX(0)
-                driver.setVelocityX(0)
-                this.hazardSpeed = 0
-                this.userSpeed = 0
-            }
-        })
-*/
-
-/*
-        //to game over screen if there is collision detection
-        if(this.crashDetection(this.driver, this.hazard)){
-            hazard.setVelocityX(0)
-            driver.setVelocityX(0)
-            this.hazardSpeed = 0
-            this.userSpeed = 0
-        }
-
-/*
-        //from golf ball collison detection lecture with modifications
-        //if the player hits a hazard, end game, set those velocities to zero, and stop spritesheet
-        this.physics.add.collider(this.hazard, this.driver, crashDetection(), (hazard, driver) => {                         
-            driver.setVelocity(0,0)
-            hazards.setVelocity(0,0)
-            this.racetrack.tilePositionx += 0
-            //game over text
-            this.add.text(game.config.width / 2, (game.config.height / 2) - 80, 'YOU CRASHED', titleConfig).setOrigin(0.5)
-            this.add.text(game.config.width / 2, game.config.height / 2, '<- for tutorial. -> for credits', tutorialConfig).setOrigin(0.5)
-            this.add.text(game.config.width / 2, game.config.height / 2 + 55, 'Spacebar to PLAY!!!', tutorialConfig).setOrigin(0.5)
-        })
-*/
     }
 }
