@@ -6,11 +6,11 @@
 ////[Does your game] do something technically interesting? Are you particularly proud of a programming technique 
 //// you implemented? Did you look beyond the class examples and learn how to do something new? (1)
 
-//The thing that makes it technically interesting is that the hazards spawns randomly, as time progress more hazards would spawn,
-//and using a delay system to spawn the hazards in the map
+//The thing that makes it technically interesting is that the hazards spawns randomly in play.js. As time progress, more hazards would spawn,
+//Hazards are spawn based on a delay system and depending on the timer, more hazards would spawn in the map.
 
 //I feel mostly proud with the credits, menu, and tutorial scenes of the code, since it was more cleaner to see.
-//The play scene, the code were messy and hopefully I will learn shortcuts and alternatives to make code length shorter 
+//Comparing with the play scene, the code were messy and hopefully I will learn shortcuts and alternatives to make code length shorter 
 
 //Majority of the project used lecture examples to do collision detection and vector movements,  
 //and StackOverflow to debug. The setTint and setDepth was an example in which was outside of 
@@ -22,19 +22,20 @@
 ////[Does your game] have a great visual style? Does it use music or art that you're particularly proud of? 
 //Are you trying something new or clever with the endless runner form? (1)
 
-//The nice visual style is shown for the driver with the arrow inputs, showing the driver turning its sholder depending on 
-//user input, on the Play scene with the animation function. The racetrack tilesprite works nicely to make it look like
+//The nice visual style is shown for the driver when the player presses the arrow input keys, showing the driver turning its sholder
+//on the Play scene with the animation function. The racetrack tilesprite works nicely to make it look like
 //an endless racetrack.
 
-//The music and small audio fits well for a racing-like endless runner game, from the background music and colliding with the barrier and hazard. 
+//The music and small audio fits well for a racing-like endless runner game, from the background music on the menu and play scene, and colliding with 
+//the barrier and hazard. 
 //I decided not to have background music when the driver and hazard collides with each other, and just have the driver to say "oww" since
-//it fits well for the player to realize they made a mistake when theres no music
+//it fits well for the player to realize they made a mistake when theres no music.
 
-//The art and spritesheets was designed by me and 
-//its simple pixel art. I am proud of how it came out for the gameplay considering I am not a good artist.
+//The art and spritesheets was designed by me that uses simple pixel art. 
+// I am proud of how it came out for the gameplay considering I am not a good artist.
 
 //Not much that I would say that it is interesting with the endless runner, as I learned how to
-//apply collision, hitboxes, and movements of sprites from lecture and example codes.
+//apply collision, hitboxes, movements of sprites, and sprite visuals for an endless runner from lecture and example code.
 
 
 //Sources:
