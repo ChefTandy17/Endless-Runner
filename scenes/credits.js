@@ -13,8 +13,21 @@ class Credits extends Phaser.Scene {
         let creditsConfig = {
             fontFamily: 'Impact',
             fontSize: '32px',
-            backgroundColor: '#9418C9',
+            //backgroundColor: '#9418C9',
             color: '#9e880d',
+            align: 'center',
+            padding: {
+                top: 10,
+                bottom: 10,
+            },
+            fixedWidth: 0
+        }
+
+        let spaceBarTextConfig = {
+            fontFamily: 'Impact',
+            fontSize: '32px',
+            backgroundColor: '#000000',
+            color: '#a6a6a6',
             align: 'center',
             padding: {
                 top: 10,
@@ -31,7 +44,7 @@ class Credits extends Phaser.Scene {
         this.add.text(game.config.width / 2, game.config.height / 2, 'All sprites were made by me using PixelArt and Piskel', creditsConfig).setOrigin(0.5);
         this.add.text(game.config.width / 2, game.config.height / 2 + 45, 'Go Kart railing collision made using jsfxr', creditsConfig).setOrigin(0.5)
         this.add.text(game.config.width / 2, game.config.height / 2 + 100, 'Short Oww by freesound_community', creditsConfig).setOrigin(0.5)
-        this.add.text(game.config.width / 2, game.config.height / 2 + 145, 'Press SPACE key to Menu', creditsConfig).setOrigin(0.5)
+        this.add.text(game.config.width / 2, game.config.height / 2 + 145, 'Press SPACE key to Menu', spaceBarTextConfig).setOrigin(0.5)
 
         this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     }

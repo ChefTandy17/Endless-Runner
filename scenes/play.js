@@ -144,7 +144,7 @@ class Play extends Phaser.Scene {
     //when the function is called, spawn hazards. Other functions do the same purpose with a different
     //timer and location to spawn a hazard 
     spawnHazardLev1() {
-    if (this.increaseTime >= 15) {
+    if (this.increaseTime >= 5) {
         let y = Phaser.Math.Between(60, game.config.height - 100)                       //to prevent hazards to spawn over the barrier
         let hazard = this.physics.add.sprite(game.config.width, y, 'hazard')            //create physics with the sprite   
         this.hazards.add(hazard)                                                        //add the hazard in the map
@@ -158,7 +158,7 @@ class Play extends Phaser.Scene {
     }
 
     spawnHazardLev2(){
-        if (this.increaseTime >= 30) {
+        if (this.increaseTime >= 20) {
         let y = Phaser.Math.Between(60, game.config.height - 200)
         let hazard = this.physics.add.sprite(game.config.width, y, 'hazard')
         this.hazards.add(hazard)                                                          
@@ -170,7 +170,7 @@ class Play extends Phaser.Scene {
     }
 
     spawnHazardLev3(){
-    if (this.increaseTime >= 45) {
+    if (this.increaseTime >= 30) {
         let y = Phaser.Math.Between(60, game.config.height - 300)
         let hazard = this.physics.add.sprite(game.config.width, y, 'hazard')
         this.hazards.add(hazard)                                                          
@@ -182,7 +182,7 @@ class Play extends Phaser.Scene {
     }
 
     spawnHazardLev4(){
-    if (this.increaseTime >= 60) {
+    if (this.increaseTime >= 40) {
         let y = Phaser.Math.Between(60, game.config.height - 400)
         let hazard = this.physics.add.sprite(game.config.width, y, 'hazard')
         this.hazards.add(hazard)                                                          

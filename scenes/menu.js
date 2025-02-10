@@ -34,9 +34,9 @@ class Menu extends Phaser.Scene {
         //variable when used, set up the looks of the texts
         //this one for title text
         let titleConfig = {
-            fontFamily: 'Impact',
-            fontSize: '64px',
-            backgroundColor: '#9418C9',
+            fontFamily: 'Circuity',
+            fontSize: '128px',
+            //backgroundColor: '#dddddd',
             color: '#9e880d',
             align: 'center',
             padding: {
@@ -49,10 +49,10 @@ class Menu extends Phaser.Scene {
         //variable when used, set up the looks of the texts
         //this one for tutorial text
         let tutorialConfig = {
-            fontFamily: 'Impact',
+            fontFamily: 'FF DIN',
             fontSize: '32px',
-            backgroundColor: '#9418C9',
-            color: '#9e880d',
+            backgroundColor: '#a6a6a6',
+            color: '#000000',
             align: 'center',
             padding: {
                 top: 10,
@@ -66,9 +66,10 @@ class Menu extends Phaser.Scene {
 
 
         //display the title screen text and input keys text.
-        this.add.text(game.config.width / 2, (game.config.height / 2) - 80, 'Streamer Driver', titleConfig).setOrigin(0.5)
-        this.add.text(game.config.width / 2, game.config.height / 2, '<- for tutorial. -> for credits', tutorialConfig).setOrigin(0.5)
-        this.add.text(game.config.width / 2, game.config.height / 2 + 55, 'Spacebar to PLAY!!!', tutorialConfig).setOrigin(0.5)
+        this.add.text(game.config.width / 2, (game.config.height / 2) - 100, 'Streamer Driver', titleConfig).setOrigin(0.5)
+        this.add.text(game.config.width / 2, (game.config.height / 2) + 60, 'WELCOME TO THE TRACK!!!', tutorialConfig).setOrigin(0.5)
+        this.add.text(game.config.width / 2, game.config.height / 2 + 110, '<- for tutorial. -> for credits', tutorialConfig).setOrigin(0.5)
+        this.add.text(game.config.width / 2, game.config.height / 2 + 160, 'Spacebar to PLAY!!!', tutorialConfig).setOrigin(0.5)
 
         //variable to store possible user inputs that players can use in the menu screen that will be used
         // in the update function. Inputs other than these four listed below won't do anything
