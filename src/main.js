@@ -7,7 +7,8 @@
 //// you implemented? Did you look beyond the class examples and learn how to do something new? (1)
 
 //The thing that makes it technically interesting is that the hazards spawns randomly in play.js. As time progress, more hazards would spawn,
-//Hazards are spawn based on a delay system and depending on the timer, more hazards would spawn in the map.
+//Hazards are spawn based on a delay system and depending on the timer, more hazards would spawn in the map. There is also a restart 
+//system in which the player wants to restart the game during gameplay, they can press the R key to reset the play scene
 
 //I feel mostly proud with the credits, menu, and tutorial scenes of the code, since it was more cleaner to see.
 //Comparing with the play scene, the code were messy and hopefully I will learn shortcuts and alternatives to make code length shorter 
